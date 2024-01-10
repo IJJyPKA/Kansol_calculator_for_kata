@@ -30,11 +30,11 @@ public class Main {
             }
 
             if (task1.isRoman(splitExample)){
-                int operan1 = task1.romanToArabic(splitExample[0]);
-                int operan2 = task1.romanToArabic(splitExample[2]);
-                if (operan1<operan2 && splitExample[1].equals("-")) //если ответом будет отрицательное число
+                int operand1 = task1.romanToArabic(splitExample[0]);
+                int operand2 = task1.romanToArabic(splitExample[2]);
+                if (operand1<operand2 && splitExample[1].equals("-")) //если ответом будет отрицательное число
                 {throw new IllegalArgumentException("В римской системе счисления нет отрицательных чисел");}
-                System.out.println("Ответ: "+task1.arabicToRoman(task1.calcToMe(operan1,splitExample[1],operan2)));
+                System.out.println("Ответ: "+task1.arabicToRoman(task1.calcToMe(operand1,splitExample[1],operand2)));
             }
         }
         else throw new IllegalArgumentException("Введен некорректный символ");
