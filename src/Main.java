@@ -4,7 +4,7 @@ import java.util.Scanner;
 public class Main { //Главная часть программы, принимает в консоль задание, передает в метод calc, ответ выводит в консоль (если не выкенет в исключение)
 
     public static void main(String[] args) {
-        String taskStr = ""; //переменная для получения примера
+        String taskStr; //переменная для получения примера
 
         Scanner in = new Scanner(System.in);                //получаем задание от пользователя
         System.out.print("Пожалуйста, введите ваш пример: ");
@@ -14,7 +14,7 @@ public class Main { //Главная часть программы, приним
 
     public static String calc(String input){ //Метод определяет систему счисления и отлавливает некоторые исключения (Должен существовать по заданию)
         Task task1 = new Task();
-        int[] num = new int[3];
+        int[] num;
         String error = "Введен некорректный символ";
 
         if (task1.checkTheCorrectness(input)) {
@@ -51,7 +51,6 @@ class Task {
     //проверка, введены ли доступные символы.
     boolean checkTheCorrectness(String getStr) {
         String symbolStr = "*:/+-0123456789IVX "; //Допустимые символ
-        boolean f = false;
         for (char symbol : getStr.toCharArray()) {
             if (!symbolStr.contains(String.valueOf(symbol))) {
                 return false;
@@ -71,18 +70,14 @@ class Task {
 
     //Возвращает результат взаимодействия 2 х чисел;
     int calcToMe(int Num1, String operator, int Num2) {
-        switch (operator) {
-            case "+":
-                return Num1 + Num2;
-            case "-":
-                return Num1 - Num2;
-            case "*":
-                return Num1 * Num2;
-            case "/", ":":
-                return Num1 / Num2;
-            default:
-                throw new IllegalArgumentException("Некорректный оператор. Пример корректного ввода \"8 : 2\" или \"3 * 3\"");
-        }
+        return switch (operator) {
+            case "+" -> Num1 + Num2;
+            case "-" -> Num1 - Num2;
+            case "*" -> Num1 * Num2;
+            case "/", ":" -> Num1 / Num2;
+            default ->
+                    throw new IllegalArgumentException("Некорректный оператор. Пример корректного ввода \"8 : 2\" или \"3 * 3\"");
+        };
     }
 
     //Возвращает массив целых чисел
@@ -140,7 +135,6 @@ int romanToArabic(String romanNumber) {
         int[] values = {1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000};
 
         int result = 0;
-        int index = 0;
 
         for (int i = 0; i < romanNumber.length(); i++) { //Прохожусь по полученной строке
             for (int j = 0; j < romanSymbols.length; j++) { //Сравниваю с массивом римских чисел
