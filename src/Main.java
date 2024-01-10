@@ -1,49 +1,53 @@
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class Main {
+public class Main { //Главная часть программы, принимает в консоль задание, передает в метод calc, ответ выводит в консоль (если не выкенет в исключение)
+
     public static void main(String[] args) {
         String taskStr = ""; //переменная для получения примера
 
         Scanner in = new Scanner(System.in);                //получаем задание от пользователя
         System.out.print("Пожалуйста, введите ваш пример: ");
         taskStr = in.nextLine();
+        System.out.println("Ответ:"+calc(taskStr));
+    }
 
-        calc task1 = new calc();
+    public static String calc(String input){ //Метод определяет систему счисления и отлавливает некоторые исключения (Должен существовать по заданию)
+        Task task1 = new Task();
         int[] num = new int[3];
+        String error = "Введен некорректный символ";
 
+        if (task1.checkTheCorrectness(input)) {
+            String[] splitExample = task1.splitInput(input); //Разделил пример
 
-        if (task1.checkTheCorrectness(taskStr)) {
-            String[] splitExample = task1.splitInput(taskStr); //Разделил пример
+            if (!task1.isRoman(splitExample) && !task1.isArabic(splitExample)) {throw new IllegalArgumentException("Операныды должны быть числами " +
+                    "римской или орабской системой счисления, меньше 10 и больше 0.");
 
-        if (!task1.isRoman(splitExample) && !task1.isArabic(splitExample)) {throw new IllegalArgumentException("Операныды должны быть числами " +
-                "римской или орабской системой счисления, меньше 10 и больше 0.");
-
-        }
+            }
             if (task1.isArabic(splitExample)) { //Проверяет являются ли числа арабскими
                 num = task1.GiveMeTheArabicNumbers(splitExample); //Заполнил массив операндами [0]- первое число, [2] - второе
                 if (num[0]<=10 && num[2]<=10 && num[0]>0 && num[2]>0 )   { //Проверка операндов >0 и <11
-                        int resultInt = task1.calcToMe(num[0], splitExample[1], num[2]); //первое число провзаимодействовало со вторым числом
-                        System.out.println("Ответ: " + resultInt); //Вывел ответ в консоль
-                        }
+                    int resultInt = task1.calcToMe(num[0], splitExample[1], num[2]); //первое число провзаимодействовало со вторым числом
+                    return String.valueOf(resultInt); //ВОЗВРАЩАЮ ОТВЕТ
+                }
                 else throw new IllegalArgumentException("Введите операнды больше 0 и меньше либо равные 10.");
             }
 
             if (task1.isRoman(splitExample)){
                 int operand1 = task1.romanToArabic(splitExample[0]);
                 int operand2 = task1.romanToArabic(splitExample[2]);
-                if (operand1<operand2 && splitExample[1].equals("-")) //если ответом будет отрицательное число
-                {throw new IllegalArgumentException("В римской системе счисления нет отрицательных чисел");}
-                System.out.println("Ответ: "+task1.arabicToRoman(task1.calcToMe(operand1,splitExample[1],operand2)));
+                if (operand1<=operand2 && splitExample[1].equals("-")) //если ответом будет отрицательное число
+                {throw new IllegalArgumentException("В римской системе счисления нет отрицательных чисел и нуля");}
+                return task1.arabicToRoman(task1.calcToMe(operand1,splitExample[1],operand2)); //ВОЗВРАЩАЮ ОТВЕТ
             }
         }
-        else throw new IllegalArgumentException("Введен некорректный символ");
 
-
+        return error;
     }
+
 }
 
-class calc {
+class Task {
     //проверка, введены ли доступные символы.
     boolean checkTheCorrectness(String getStr) {
         String symbolStr = "*:/+-0123456789IVX "; //Допустимые символ
