@@ -9,7 +9,7 @@ public class Main {
         System.out.print("Пожалуйста, введите ваш пример: ");
         taskStr = in.nextLine();
 
-        Task task1 = new Task();
+        calc task1 = new calc();
         int[] num = new int[3];
 
 
@@ -43,7 +43,7 @@ public class Main {
     }
 }
 
-class Task {
+class calc {
     //проверка, введены ли доступные символы.
     boolean checkTheCorrectness(String getStr) {
         String symbolStr = "*:/+-0123456789IVX "; //Допустимые символ
